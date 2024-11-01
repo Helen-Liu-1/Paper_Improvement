@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/capstoneDatabase?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+    hikari:
+      connection-timeout: 30000
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      pool-name: HikariPool
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+#        format_sql: true
+        show_sql: false
+        jdbc:
+          batch_size: 50
+        hbm2ddl:
+          auto: update
