@@ -38,7 +38,7 @@ public class OrderController {
         }
     }
 
-    @GetMapping("/saveAll")
+    @PostMapping("/saveAll")
     public List<OrderEntity> save(@RequestParam Integer count) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
