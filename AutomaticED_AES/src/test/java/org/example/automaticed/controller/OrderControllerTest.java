@@ -80,7 +80,7 @@ class OrderControllerTest {
         List<OrderEntity> orders = Collections.singletonList(new OrderEntity());
         when(orderService.save(anyInt())).thenReturn(orders);
 
-        mockMvc.perform(get("/saveAll")
+        mockMvc.perform(post("/saveAll")
                         .param("count", "5"))
                 .andExpect(status().isOk());
     }
