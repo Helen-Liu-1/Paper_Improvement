@@ -45,42 +45,12 @@ class OrderControllerTest {
         mockMvc = MockMvcBuilders.standaloneSetup(orderController).build();
     }
 
-//    @Test
-//    void testEncrypt() throws Exception {
-//        String plaintext = "test";
-//        String algorithm = "AES";
-//        String encryptedText = "encryptedTest";
-//
-//        when(CryptoUtil.encrypt(plaintext, algorithm)).thenReturn(encryptedText);
-//
-//        mockMvc.perform(get("/encrypt")
-//                        .param("plaintext", plaintext)
-//                        .param("algorithm", algorithm))
-//                .andExpect(status().isOk())
-//                .andExpect(content().string(encryptedText));
-//    }
-
-//    @Test
-//    void testDecrypt() throws Exception {
-//        String ciphertext = "encryptedTest";
-//        String algorithm = "AES";
-//        String decryptedText = "test";
-//
-//        when(CryptoUtil.decrypt(ciphertext, algorithm)).thenReturn(decryptedText);
-//
-//        mockMvc.perform(get("/decrypt")
-//                        .param("ciphertext", ciphertext)
-//                        .param("algorithm", algorithm))
-//                .andExpect(status().isOk())
-//                .andExpect(content().string(decryptedText));
-//    }
-
     @Test
     void testSaveAll() throws Exception {
         List<OrderEntity> orders = Collections.singletonList(new OrderEntity());
         when(orderService.save(anyInt())).thenReturn(orders);
 
-        mockMvc.perform(get("/saveAll")
+        mockMvc.perform(post("/saveAll")
                         .param("count", "5"))
                 .andExpect(status().isOk());
     }
