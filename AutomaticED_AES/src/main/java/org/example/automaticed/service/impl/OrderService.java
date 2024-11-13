@@ -18,7 +18,6 @@ public class OrderService implements IOrderService {
     @Autowired
     private IOrderRepository orderDao;
 
-
     @Override
     public List<OrderEntity> save(int count) {
         List<OrderEntity> orderEntities = generateRandomOrders(count);
@@ -46,6 +45,11 @@ public class OrderService implements IOrderService {
     public List<OrderEntity> saveByOneself(List<OrderEntity> orderList) {
         List<OrderEntity> resultList = orderDao.saveAll(orderList);
         return resultList;
+    }
+
+    @Override
+    public List<OrderEntity> findAll() {
+        return orderDao.findAll();
     }
 
     private static List<OrderEntity> generateRandomOrders(int count) {

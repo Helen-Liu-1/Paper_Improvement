@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @RestController
 public class OrderController {
@@ -100,5 +101,51 @@ public class OrderController {
     public List<OrderEntity> saveByOneself(@RequestBody List<OrderEntity> orderList) {
         List<OrderEntity> orderEntities = orderService.saveByOneself(orderList);
         return orderEntities;
+    }
+
+    @GetMapping("/getAll")
+    public List<String> getAllDecrypted() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        long startTime = System.currentTimeMillis();
+        System.out.println("Start Time: " + sdf.format(new Date(startTime)));
+
+        try {
+            // Retrieve all orders
+            List<OrderEntity> orders = orderService.findAll();
+
+            // Decrypt each encrypted text (userName is automatically decrypted due to the
+            // converter)
+            List<String> decryptedTexts = orders.stream()
+                    .map(order -> {
+                        try {
+                            // Get the decrypted userName directly from the entity
+                            String decryptedUserName = order.getUserName();
+                            if (decryptedUserName != null) {
+                                return decryptedUserName;
+                            } else {
+                                return "No user name found for orderId: " + order.getOrderId();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            return "Error decrypting data for orderId: " + order.getOrderId();
+                        }
+                    })
+                    .collect(Collectors.toList()); // Collect the decrypted results into a list
+
+            long endTime = System.currentTimeMillis();
+            System.out.println("End Time: " + sdf.format(new Date(endTime)));
+
+            long durationMillis = endTime - startTime;
+            long minutes = TimeUnit.MILLISECONDS.toMinutes(durationMillis);
+            long seconds = TimeUnit.MILLISECONDS.toSeconds(durationMillis) - TimeUnit.MINUTES.toSeconds(minutes);
+            long millis = durationMillis % 1000;
+
+            System.out.println("Execution Time: " + minutes + " min " + seconds + " sec " + millis + " ms");
+
+            return decryptedTexts;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return List.of("Error retrieving data");
+        }
     }
 }

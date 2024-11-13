@@ -15,4 +15,6 @@ public interface IOrderService {
     Page<OrderEntity> findPaginated(int pageNo, int pageSize);
 
     List<OrderEntity> saveByOneself(List<OrderEntity> orderList);
+    
+    List<OrderEntity> findAll();
 }
