@@ -8,7 +8,7 @@ public class CryptoUtil {
 
     private static final String ALGORITHM = "AES";
     private static final String TRANSFORMATION = "AES/ECB/PKCS5Padding";
-    private static final String SECRET_KEY = "mySuperSecretKey1234567890123456"; // 确保密钥与AESSensitiveConverter中一致
+    private static final String SECRET_KEY = "mySuperSecretKey1234567890123456";
 
     public static String encrypt(String input) {
         try {

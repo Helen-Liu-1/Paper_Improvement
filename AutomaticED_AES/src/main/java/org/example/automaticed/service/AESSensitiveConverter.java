@@ -12,7 +12,7 @@ public class AESSensitiveConverter implements AttributeConverter<String, String>
 
     private static final String ALGORITHM = "AES";
     private static final String TRANSFORMATION = "AES/ECB/PKCS5Padding";
-    private static final String SECRET_KEY = "mySuperSecretKey1234567890123456"; // 确保密钥长度为16、24或32字节
+    private static final String SECRET_KEY = "mySuperSecretKey1234567890123456";
 
     @Override
     public String convertToDatabaseColumn(String input) {
@@ -43,7 +43,7 @@ public class AESSensitiveConverter implements AttributeConverter<String, String>
             Cipher cipher = Cipher.getInstance(TRANSFORMATION);
             cipher.init(Cipher.DECRYPT_MODE, keySpec);
 
-            byte[] decodedBytes = Base64.getDecoder().decode(input);  // 解码后再解密
+            byte[] decodedBytes = Base64.getDecoder().decode(input);
             byte[] decryptedBytes = cipher.doFinal(decodedBytes);
             return new String(decryptedBytes);
         } catch (Exception e) {
