@@ -6,29 +6,66 @@ import java.util.Base64;
 
 public class CryptoUtil {
 
+    private static final String ALGORITHM = "AES";
+    private static final String TRANSFORMATION = "AES/ECB/PKCS5Padding";
+    private static final String SECRET_KEY = "mySuperSecretKey1234567890123456"; // 确保密钥与AESSensitiveConverter中一致
 
-    // private static final String TRANSFORMATION = "DES"; 
-    private static final String TRANSFORMATION = "DES/ECB/PKCS5Padding"; //The TRANSFORMATION should be DES/ECB/PKCS5Padding, which is just like in the DESSensitiveConverter
+    public static String encrypt(String input) {
+        try {
 
-    // private static final String SECRET_KEY = "mySuperSecretKey";
-    private static final String SECRET_KEY = "mySuperS"; //The SECRET_KEY should be 8 bytes long
-    
-    public static String encrypt(String input,String algorithm) throws Exception {
-        SecretKeySpec keySpec = new SecretKeySpec(SECRET_KEY.getBytes(), algorithm);
-        Cipher cipher = Cipher.getInstance(TRANSFORMATION);
-        cipher.init(Cipher.ENCRYPT_MODE, keySpec);
+            byte[] keyBytes = SECRET_KEY.getBytes();
+            SecretKeySpec keySpec = new SecretKeySpec(keyBytes, ALGORITHM);
 
-        byte[] encryptedBytes = cipher.doFinal(input.getBytes());
-        return Base64.getEncoder().encodeToString(encryptedBytes);
+
+            Cipher cipher = Cipher.getInstance(TRANSFORMATION);
+            cipher.init(Cipher.ENCRYPT_MODE, keySpec);
+
+
+            byte[] encryptedBytes = cipher.doFinal(input.getBytes());
+
+
+            return Base64.getEncoder().encodeToString(encryptedBytes);
+        } catch (Exception e) {
+            throw new RuntimeException("Encryption error: " + e.getMessage(), e);
+        }
     }
 
-    public static String decrypt(String input,String algorithm) throws Exception {
-        SecretKeySpec keySpec = new SecretKeySpec(SECRET_KEY.getBytes(), algorithm);
-        Cipher cipher = Cipher.getInstance(TRANSFORMATION);
-        cipher.init(Cipher.DECRYPT_MODE, keySpec);
+    public static String decrypt(String input) {
+        try {
 
-        byte[] decodedBytes = Base64.getDecoder().decode(input);
-        byte[] decryptedBytes = cipher.doFinal(decodedBytes);
-        return new String(decryptedBytes);
+            byte[] keyBytes = SECRET_KEY.getBytes();
+            SecretKeySpec keySpec = new SecretKeySpec(keyBytes, ALGORITHM);
+
+
+            Cipher cipher = Cipher.getInstance(TRANSFORMATION);
+            cipher.init(Cipher.DECRYPT_MODE, keySpec);
+
+
+            byte[] decodedBytes = Base64.getDecoder().decode(input);
+            byte[] decryptedBytes = cipher.doFinal(decodedBytes);
+
+
+            return new String(decryptedBytes);
+        } catch (Exception e) {
+            throw new RuntimeException("Decryption error: " + e.getMessage(), e);
+        }
+    }
+
+
+    public static void main(String[] args) {
+        String text = "TestMessage";
+        try {
+
+            String encrypted = CryptoUtil.encrypt(text);
+            System.out.println("Encrypted: " + encrypted);
+
+
+            String decrypted = CryptoUtil.decrypt(encrypted);
+            System.out.println("Decrypted: " + decrypted);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
+
+

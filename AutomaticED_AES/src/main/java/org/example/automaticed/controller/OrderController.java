@@ -19,25 +19,7 @@ public class OrderController {
     @Autowired
     private IOrderService orderService;
 
-    @GetMapping("/encrypt")
-    public String encrypt(@RequestParam String plaintext, @RequestParam String algorithm) {
-        try {
-            return CryptoUtil.encrypt(plaintext, algorithm);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "Error encrypting data";
-        }
-    }
 
-    @GetMapping("/decrypt")
-    public String decrypt(@RequestParam String ciphertext, @RequestParam String algorithm) {
-        try {
-            return CryptoUtil.decrypt(ciphertext, algorithm);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "Error decrypting data";
-        }
-    }
 
     @PostMapping("/saveAll")
     public List<OrderEntity> save(@RequestParam Integer count) {
