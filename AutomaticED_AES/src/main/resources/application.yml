@@ -4,6 +4,10 @@ spring:
     url: jdbc:mysql://localhost:3306/capstoneDatabase?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true
     username: root
     password: 123456
+    # url: jdbc:mysql://localhost:3306/table1
+    # username: root
+    # password: 112358&root
+
     hikari:
       connection-timeout: 30000
       maximum-pool-size: 10
